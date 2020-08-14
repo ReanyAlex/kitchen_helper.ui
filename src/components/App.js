@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Landing from "./Landing";
 import TopNav from './navigation/TopNav'
-import Recipes from './recipes/Recipes'
+import Recipes from './recipes/RecipeList'
 import { Container } from 'semantic-ui-react'
 
 const App = () => {
