@@ -9,7 +9,7 @@ export default class RecipeList extends Component {
     }
 
     componentDidMount() {
-        this.onPageLoad(); 
+        this.onPageLoad();
     }
 
     onPageLoad = async () => {
@@ -18,11 +18,12 @@ export default class RecipeList extends Component {
     }
 
     render() {
-        const recipeCards = this.state.recipes.map(recipe => {
+        const recipeCards = this.state.recipes.map(({ id, name, description }) => {
             return <RecipeCard
-                key={recipe.id}
-                name={recipe.name}
-                description={recipe.description}
+                key={id}
+                id={id}
+                name={name}
+                description={description}
             />
         });
 

@@ -7,6 +7,7 @@ import {
 import Landing from "./Landing";
 import TopNav from './navigation/TopNav'
 import Recipes from './recipes/RecipeList'
+import RecipeDetail from './recipes/RecipeDetail'
 import { Container } from 'semantic-ui-react'
 
 const App = () => {
@@ -15,6 +16,9 @@ const App = () => {
             <Container >
                 <TopNav />
                 <Switch>
+                    <Route path="/recipes/{recipeId}">
+                        <RecipeDetail />
+                    </Route>
                     <Route path="/recipes">
                         <Recipes />
                     </Route>
