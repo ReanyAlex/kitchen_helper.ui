@@ -9,13 +9,12 @@ export default class RecipeList extends Component {
     }
 
     componentDidMount() {
-        this.onPageLoad();
+        this.onPageLoad(); 
     }
 
     onPageLoad = async () => {
         const response = await kitchenHelper.get('/recipes');
-        console.log(response.data.results);
-        this.setState({ recipes: response.data.results })
+        this.setState({ recipes: response.data })
     }
 
     render() {
@@ -30,17 +29,6 @@ export default class RecipeList extends Component {
         return (
             <Card.Group itemsPerRow={4}>
                 {recipeCards}
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
                 <Card>
                     <Card.Content>
                         <Image as={Icon} name='plus' size='huge' />

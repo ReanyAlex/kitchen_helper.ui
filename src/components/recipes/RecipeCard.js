@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React  from 'react'
 import { Card, Image } from 'semantic-ui-react'
 
 const RecipeCard = ({ name, description }) => {
@@ -13,10 +13,6 @@ const RecipeCard = ({ name, description }) => {
             </Card.Content>
         </Card>
     )
-    this.props.defaultProps = {
-        name: 'n/a',
-        description: ''
-    }
 }
 
 export default RecipeCard;
