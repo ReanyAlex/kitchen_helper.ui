@@ -11,23 +11,20 @@ class TopNav extends Component {
         { key: 'ingredients', name: 'Ingredients', route: '/ingredients' },
     ]
 
-    listMenuItem() {
-        return (
-            this.items.map((value) => {
-                return <MenuItem
-                    key={value["key"]}
-                    name={value["name"]}
-                    activeItem={this.state.activeItem}
-                    onClick={(e, { name }) => this.setState({ activeItem: name })}
-                    route={value["route"]}
-                />
-            }))
-    }
-
     render() {
+        const menuItems = this.items.map((value) => {
+            return <MenuItem
+                key={value["key"]}
+                name={value["name"]}
+                activeItem={this.state.activeItem}
+                onClick={(_, { name }) => this.setState({ activeItem: name })}
+                route={value["route"]}
+            />
+        });
+
         return (
             <Menu pointing>
-                {this.listMenuItem()}
+                {menuItems}
                 <Menu.Menu position='right'>
                     <Menu.Item>
                         <Input icon='search' placeholder='Search...' />
