@@ -1,20 +1,41 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 import { Card, Icon, Image } from 'semantic-ui-react'
 import kitchenHelper from '../../api/kitchenHelper'
 import RecipeCard from './RecipeCard'
 
-export default class RecipeList extends Component {
+class RecipeList extends Component {
     state = {
-        recipes: []
+        recipes: [
+            {
+                id:null,
+                name:null,
+                description:null
+            }
+        ]
     }
+
+    CancelToken = axios.CancelToken;
+    source = this.CancelToken.source();
 
     componentDidMount() {
-        this.onPageLoad();
+        this.getRecipes();
     }
 
-    onPageLoad = async () => {
-        const response = await kitchenHelper.get('/recipes');
-        this.setState({ recipes: response.data })
+    componentWillUnmount() {
+        this.source.cancel('Operation canceled by the user.a');
+    }
+
+    getRecipes = async () => {
+        try {
+            const response = await kitchenHelper.get('/recipes',{
+                cancelToken: this.source.token
+            });
+
+            this.setState({ recipes: response.data })
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     render() {
@@ -41,3 +62,4 @@ export default class RecipeList extends Component {
     }
 }
 
+export default RecipeList;

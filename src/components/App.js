@@ -16,14 +16,11 @@ const App = () => {
             <Container >
                 <TopNav />
                 <Switch>
-                    <Route path="/recipes/{recipeId}">
-                        <RecipeDetail />
-                    </Route>
+                    <Route exact path="/recipes/:recipeId" component={RecipeDetail} />
                     <Route path="/recipes">
                         <Recipes />
                     </Route>
-                    <Route path="/">
-                        <Landing />
+                    <Route path="/" component={Landing}>
                     </Route>
                 </Switch>
             </Container>
