@@ -1,5 +1,9 @@
 {
     "cSpell.words": [
         "textalign"
-    ]
+    ],
+    "editor.formatOnSave": false,
+    "[javascript]": {
+        "editor.formatOnSave": true
+    }
 }
