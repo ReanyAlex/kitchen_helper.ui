@@ -129,6 +129,7 @@ class RecipeNew extends Component {
 
   ingredientsInput() {
     return this.state.recipe.ingredients.map((i, j) => {
+      console.log("this.state.ingredientList", this.state.ingredientList);
       return (
         <Form.Group widths="equal" key={j}>
           <Form.Field
@@ -144,6 +145,8 @@ class RecipeNew extends Component {
             control={Select}
             label="Measurement"
             name={`measurementId|${j}`}
+            search
+            selection
             value={i.measurementId}
             options={this.state.measurementList}
             onChange={this.onChange}
@@ -152,6 +155,8 @@ class RecipeNew extends Component {
             control={Select}
             label="Ingredient"
             name={`ingredientId|${j}`}
+            search
+            selection
             value={i.ingredientId}
             options={this.state.ingredientList}
             onChange={this.onChange}

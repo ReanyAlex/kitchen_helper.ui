@@ -13,7 +13,7 @@ const RecipeDetailStepList = ({ recipeSteps }) => {
         <Header as="h2" style={{ marginTop: "3em" }}>
           Steps
         </Header>
-        <ul>{stepList}</ul>
+        <ol>{stepList}</ol>
       </Grid.Column>
     </Grid.Row>
   );
