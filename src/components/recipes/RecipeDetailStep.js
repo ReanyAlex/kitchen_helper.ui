@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const RecipeDetailStep=({step}) =>{
-    return  (
-            <li>{step}</li>
-        )
- }
+const RecipeDetailStep = ({ step }) => {
+  return <li>{step}</li>;
+};
 
- export default RecipeDetailStep
+export default RecipeDetailStep;
