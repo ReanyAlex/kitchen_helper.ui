@@ -144,6 +144,8 @@ class RecipeNew extends Component {
             control={Select}
             label="Measurement"
             name={`measurementId|${j}`}
+            search
+            selection
             value={i.measurementId}
             options={this.state.measurementList}
             onChange={this.onChange}
@@ -152,6 +154,8 @@ class RecipeNew extends Component {
             control={Select}
             label="Ingredient"
             name={`ingredientId|${j}`}
+            search
+            selection
             value={i.ingredientId}
             options={this.state.ingredientList}
             onChange={this.onChange}

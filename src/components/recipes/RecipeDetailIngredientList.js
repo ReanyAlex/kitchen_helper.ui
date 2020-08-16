@@ -20,7 +20,7 @@ const RecipeDetailIngredientList = ({ ingredients }) => {
         <Header as="h2" style={{ marginTop: "3em" }}>
           Ingredients
         </Header>
-        <ol>{ingredientList}</ol>
+        <ul>{ingredientList}</ul>
       </Grid.Column>
     </Grid.Row>
   );
