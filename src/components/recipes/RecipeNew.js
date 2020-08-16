@@ -129,7 +129,6 @@ class RecipeNew extends Component {
 
   ingredientsInput() {
     return this.state.recipe.ingredients.map((i, j) => {
-      console.log("this.state.ingredientList", this.state.ingredientList);
       return (
         <Form.Group widths="equal" key={j}>
           <Form.Field
