@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Grid } from "semantic-ui-react";
+import { Grid, Button, Input, Form } from "semantic-ui-react";
 import kitchenHelper from "../../api/kitchenHelper";
 import RecipeDetailIngredientList from "./RecipeDetailIngredientList";
 import RecipeDetailStepList from "./RecipeDetailStepList";
@@ -14,6 +14,7 @@ class RecipeDetail extends Component {
       ingredients: [],
       recipeSteps: [],
     },
+    scheduledDate: null,
   };
 
   CancelToken = axios.CancelToken;
@@ -41,12 +42,42 @@ class RecipeDetail extends Component {
     }
   };
 
+  onClickScheduleRecipe = async () => {
+    const { recipeId } = this.props.match.params;
+    const { scheduledDate } = this.state;
+
+    const body = { scheduledDate };
+
+    try {
+      await kitchenHelper.post(`/user/1/recipes/${recipeId}/schedule`, body);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  onChange = (event) => {
+    this.setState({ scheduledDate: event.target.value });
+  };
+
   render() {
     const { name, description, ingredients, recipeSteps } = this.state.recipe;
 
     return (
       <Grid>
         <RecipeDetailDescription name={name} description={description} />
+        <Grid.Row centered columns={6}>
+          <Form.Group widths="equal">
+            <Form.Field
+              control={Input}
+              type="date"
+              min="0"
+              name="scheduledDate"
+              value={this.scheduledDate}
+              onChange={this.onChange}
+            />
+            <Button onClick={this.onClickScheduleRecipe}>Schedule</Button>
+          </Form.Group>
+        </Grid.Row>
         <RecipeDetailIngredientList ingredients={ingredients} />
         <RecipeDetailStepList recipeSteps={recipeSteps} />
       </Grid>
