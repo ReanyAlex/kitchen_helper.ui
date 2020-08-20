@@ -51,6 +51,36 @@ class Schedule extends Component {
     }
   };
 
+  renderIngredientList = () => {
+    var ingredientList = [];
+
+    this.state.recipes.forEach(({ recipe: { ingredients } }) => {
+      ingredients.forEach(
+        ({ quantity, measurement: { shortHand }, ingredient: { name } }) => {
+          ingredientList.push({ quantity, shortHand, name });
+        }
+      );
+    });
+
+    return ingredientList
+      .sort((a, b) => (a.name > b.name ? 1 : -1))
+      .map(({ quantity, shortHand, name }) => {
+        return (
+          <Grid.Row centered columns={6}>
+            <Grid.Column>
+              <p textalign="center">{quantity}</p>
+            </Grid.Column>
+            <Grid.Column>
+              <p textalign="center">{shortHand}</p>
+            </Grid.Column>
+            <Grid.Column>
+              <p textalign="center">{name}</p>
+            </Grid.Column>
+          </Grid.Row>
+        );
+      });
+  };
+
   render() {
     return (
       <Grid>
@@ -83,6 +113,8 @@ class Schedule extends Component {
             </Grid.Row>
           );
         })}
+        <Header>Ingredients</Header>
+        {this.renderIngredientList()}
       </Grid>
     );
   }
