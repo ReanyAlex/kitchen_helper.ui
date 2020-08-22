@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import kitchenHelper from "../../api/kitchenHelper";
+import { kitchenHelper } from "../../api/kitchenHelper";
 import axios from "axios";
 import { Grid, Button, Input, Form, Header } from "semantic-ui-react";
 
@@ -38,7 +38,6 @@ class Schedule extends Component {
   };
 
   onChange = (_, { value, name }) => {
-    console.log(value, name);
     switch (name) {
       case "startDate":
         this.setState({ startDate: value });
@@ -64,9 +63,9 @@ class Schedule extends Component {
 
     return ingredientList
       .sort((a, b) => (a.name > b.name ? 1 : -1))
-      .map(({ quantity, shortHand, name }) => {
+      .map(({ quantity, shortHand, name }, i) => {
         return (
-          <Grid.Row centered columns={6}>
+          <Grid.Row centered columns={6} key={i}>
             <Grid.Column>
               <p textalign="center">{quantity}</p>
             </Grid.Column>

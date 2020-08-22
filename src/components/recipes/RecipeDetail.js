@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Grid, Button, Input, Form } from "semantic-ui-react";
-import kitchenHelper from "../../api/kitchenHelper";
+import { getAsync, postAsync } from "../../api/kitchenHelper";
 import RecipeDetailIngredientList from "./RecipeDetailIngredientList";
 import RecipeDetailStepList from "./RecipeDetailStepList";
 import RecipeDetailDescription from "./RecipeDetailDescription";
@@ -32,10 +32,10 @@ class RecipeDetail extends Component {
     const { recipeId } = this.props.match.params;
 
     try {
-      const response = await kitchenHelper.get(`/recipes/${recipeId}`, {
-        cancelToken: this.source.token,
-      });
-
+      const response = await getAsync(
+        `/recipes/${recipeId}`,
+        this.source.token
+      );
       this.setState({ recipe: response.data });
     } catch (error) {
       console.error(error);
@@ -49,7 +49,7 @@ class RecipeDetail extends Component {
     const body = { scheduledDate };
 
     try {
-      await kitchenHelper.post(`/user/1/recipes/${recipeId}/schedule`, body);
+      await postAsync(`/user/1/recipes/${recipeId}/schedule`, body);
     } catch (error) {
       console.error(error);
     }

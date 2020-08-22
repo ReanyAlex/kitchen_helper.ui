@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { Card, Icon, Image } from "semantic-ui-react";
-import kitchenHelper from "../../api/kitchenHelper";
+import { getAsync } from "../../api/kitchenHelper";
 import RecipeCard from "./RecipeCard";
 
 class RecipeList extends Component {
@@ -24,14 +24,12 @@ class RecipeList extends Component {
   }
 
   componentWillUnmount() {
-    this.source.cancel("Operation canceled by the user.a");
+    this.source.cancel("Operation canceled by the user.");
   }
 
   getRecipes = async () => {
     try {
-      const response = await kitchenHelper.get("/recipes", {
-        cancelToken: this.source.token,
-      });
+      const response = await getAsync("/recipes", this.source.token);
 
       this.setState({ recipes: response.data });
     } catch (error) {
