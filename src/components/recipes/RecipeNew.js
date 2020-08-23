@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Button, Form, Input, Header, Select } from "semantic-ui-react";
-import kitchenHelper from "../../api/kitchenHelper";
+import { getAsync, postAsync } from "../../api/kitchenHelper";
 
 class RecipeNew extends Component {
   state = {
@@ -29,10 +29,7 @@ class RecipeNew extends Component {
 
   getIngredients = async () => {
     try {
-      const response = await kitchenHelper.get("/ingredients", {
-        params: { PageSize: 100 },
-        cancelToken: this.source.token,
-      });
+      const response = await getAsync("/ingredients", this.source.token);
 
       const ingredientList = response.data.map((m) => {
         return { key: m.id, text: m.name, value: m.id };
@@ -46,10 +43,7 @@ class RecipeNew extends Component {
 
   getMeasurements = async () => {
     try {
-      const response = await kitchenHelper.get("/measurements", {
-        params: { PageSize: 100 },
-        cancelToken: this.source.token,
-      });
+      const response = await getAsync("/measurements");
 
       const measurementList = response.data.map((m) => {
         return { key: m.id, text: m.shortHand, value: m.id };
@@ -63,7 +57,7 @@ class RecipeNew extends Component {
 
   postRecipe = async () => {
     try {
-      const response = await kitchenHelper.post(`/recipes`, this.state.recipe);
+      const response = await postAsync(`/recipes`, this.state.recipe);
       const { id } = response.data;
       this.props.history.push(`/recipes/${id}`);
     } catch (error) {
@@ -127,8 +121,30 @@ class RecipeNew extends Component {
     this.setState({ recipe: recipeToUpdate });
   };
 
+  postIngredient = async (value) => {
+    const body = { name: value };
+
+    try {
+      const response = await postAsync("/ingredients", body, this.source.token);
+      const { id, name } = response.data;
+      const { ingredientList } = this.state;
+
+      console.log("post", this.props.value);
+      ingredientList.push({ key: id, text: name, value: id });
+
+      this.setState({ ingredientList });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  onAddIngredient = (_, { value }) => {
+    this.postIngredient(value);
+  };
+
   ingredientsInput() {
     return this.state.recipe.ingredients.map((i, j) => {
+      console.log("input", this.state);
       return (
         <Form.Group widths="equal" key={j}>
           <Form.Field
@@ -156,10 +172,18 @@ class RecipeNew extends Component {
             name={`ingredientId|${j}`}
             search
             selection
+            allowAdditions
             value={i.ingredientId}
             options={this.state.ingredientList}
             onChange={this.onChange}
+            onAddItem={this.onAddIngredient}
           />
+          {/* <Ingredients
+            name={`ingredientId|${j}`}
+            value={i.ingredientId}
+            onChange={this.onChange}
+            options={this.state.ingredientList}
+          /> */}
         </Form.Group>
       );
     });
