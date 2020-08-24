@@ -178,12 +178,6 @@ class RecipeNew extends Component {
             onChange={this.onChange}
             onAddItem={this.onAddIngredient}
           />
-          {/* <Ingredients
-            name={`ingredientId|${j}`}
-            value={i.ingredientId}
-            onChange={this.onChange}
-            options={this.state.ingredientList}
-          /> */}
         </Form.Group>
       );
     });

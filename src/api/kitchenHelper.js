@@ -16,3 +16,9 @@ export function postAsync(route, body, cancelToken) {
     cancelToken,
   });
 }
+
+export function deleteAsync(route, cancelToken) {
+  return kitchenHelper.delete(route, {
+    cancelToken,
+  });
+}

@@ -13,10 +13,6 @@ class Schedule extends Component {
   CancelToken = axios.CancelToken;
   source = this.CancelToken.source();
 
-  componentDidMount() {
-    //this.getScheduledRecipes();
-  }
-
   componentWillUnmount() {
     this.source.cancel("Operation canceled by the user.");
   }

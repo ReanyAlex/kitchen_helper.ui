@@ -8,7 +8,6 @@ class TopNav extends Component {
   menuItems = [
     { key: "home", name: "Home", route: "/" },
     { key: "recipes", name: "Recipes", route: "/recipes" },
-    { key: "ingredients", name: "Ingredients", route: "/ingredients" },
     { key: "schedule", name: "Schedule", route: "/schedule" },
   ];
 

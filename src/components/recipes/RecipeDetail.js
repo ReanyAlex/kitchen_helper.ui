@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Grid, Button, Input, Form } from "semantic-ui-react";
-import { getAsync, postAsync } from "../../api/kitchenHelper";
+import { getAsync, postAsync, deleteAsync } from "../../api/kitchenHelper";
 import RecipeDetailIngredientList from "./RecipeDetailIngredientList";
 import RecipeDetailStepList from "./RecipeDetailStepList";
 import RecipeDetailDescription from "./RecipeDetailDescription";
@@ -55,6 +55,17 @@ class RecipeDetail extends Component {
     }
   };
 
+  onClickDeleteRecipe = async () => {
+    const { recipeId } = this.props.match.params;
+
+    try {
+      await deleteAsync(`/recipes/${recipeId}`);
+      this.props.history.push("/recipes");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   onChange = (event) => {
     this.setState({ scheduledDate: event.target.value });
   };
@@ -76,6 +87,7 @@ class RecipeDetail extends Component {
               onChange={this.onChange}
             />
             <Button onClick={this.onClickScheduleRecipe}>Schedule</Button>
+            <Button onClick={this.onClickDeleteRecipe}>Delete</Button>
           </Form.Group>
         </Grid.Row>
         <RecipeDetailIngredientList ingredients={ingredients} />
