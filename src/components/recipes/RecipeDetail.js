@@ -15,6 +15,7 @@ class RecipeDetail extends Component {
       recipeSteps: [],
     },
     scheduledDate: null,
+    scheduledDates: [],
   };
 
   CancelToken = axios.CancelToken;
@@ -22,6 +23,7 @@ class RecipeDetail extends Component {
 
   componentDidMount() {
     this.getRecipe();
+    this.getSchedule();
   }
 
   componentWillUnmount() {
@@ -42,14 +44,41 @@ class RecipeDetail extends Component {
     }
   };
 
+  getSchedule = async () => {
+    const { recipeId } = this.props.match.params;
+
+    try {
+      const response = await getAsync(
+        `/user/1/recipes/${recipeId}/schedule`,
+        this.source.token
+      );
+      console.log(response.data);
+      const scheduledDates = response.data.map((s) => {
+        return { id: s.id, scheduledDate: s.scheduledDate };
+      });
+
+      this.setState({ scheduledDates });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   onClickScheduleRecipe = async () => {
     const { recipeId } = this.props.match.params;
-    const { scheduledDate } = this.state;
+    const { scheduledDate, scheduledDates } = this.state;
 
     const body = { scheduledDate };
 
     try {
-      await postAsync(`/user/1/recipes/${recipeId}/schedule`, body);
+      var response = await postAsync(
+        `/user/1/recipes/${recipeId}/schedule`,
+        body
+      );
+      const { id, scheduledDate } = response.data;
+
+      scheduledDates.push({ id, scheduledDate });
+
+      this.setState({ scheduledDates });
     } catch (error) {
       console.error(error);
     }
@@ -70,9 +99,19 @@ class RecipeDetail extends Component {
     this.setState({ scheduledDate: event.target.value });
   };
 
+  scheduledDates = () => {
+    return this.state.scheduledDates.map((s, i) => {
+      console.log(s);
+      return (
+        <Grid.Row centered columns={6} key={s.id}>
+          <p>{new Date(s.scheduledDate).toDateString()}</p>
+        </Grid.Row>
+      );
+    });
+  };
+
   render() {
     const { name, description, ingredients, recipeSteps } = this.state.recipe;
-
     return (
       <Grid>
         <RecipeDetailDescription name={name} description={description} />
@@ -86,6 +125,7 @@ class RecipeDetail extends Component {
               value={this.scheduledDate}
               onChange={this.onChange}
             />
+            {this.scheduledDates()}
             <Button onClick={this.onClickScheduleRecipe}>Schedule</Button>
             <Button onClick={this.onClickDeleteRecipe}>Delete</Button>
           </Form.Group>
