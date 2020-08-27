@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Grid, Button, Input, Form } from "semantic-ui-react";
+import { Grid, Button, Input, Form, Icon } from "semantic-ui-react";
 import { getAsync, postAsync, deleteAsync } from "../../api/kitchenHelper";
 import RecipeDetailIngredientList from "./RecipeDetailIngredientList";
 import RecipeDetailStepList from "./RecipeDetailStepList";
@@ -95,6 +95,20 @@ class RecipeDetail extends Component {
     }
   };
 
+  onClickDeleteSchedule = async (scheduleId) => {
+    try {
+      await deleteAsync(`/recipes/scheduled/${scheduleId}`);
+      const { scheduledDates } = this.state;
+
+      const index = scheduledDates.map((item) => item.id).indexOf(scheduleId);
+      if (index > -1) scheduledDates.splice(index, 1);
+
+      this.setState({ scheduledDates });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   onChange = (event) => {
     this.setState({ scheduledDate: event.target.value });
   };
@@ -103,8 +117,15 @@ class RecipeDetail extends Component {
     return this.state.scheduledDates.map((s, i) => {
       console.log(s);
       return (
-        <Grid.Row centered columns={6} key={s.id}>
-          <p>{new Date(s.scheduledDate).toDateString()}</p>
+        <Grid.Row centered columns={3} key={s.id}>
+          <Grid.Column width={2}>
+            {new Date(s.scheduledDate).toDateString()}
+          </Grid.Column>
+          <Grid.Column width={1}>
+            <Button onClick={() => this.onClickDeleteSchedule(s.id)}>
+              <Icon name="trash" />
+            </Button>
+          </Grid.Column>
         </Grid.Row>
       );
     });
@@ -125,10 +146,12 @@ class RecipeDetail extends Component {
               value={this.scheduledDate}
               onChange={this.onChange}
             />
-            {this.scheduledDates()}
-            <Button onClick={this.onClickScheduleRecipe}>Schedule</Button>
-            <Button onClick={this.onClickDeleteRecipe}>Delete</Button>
           </Form.Group>
+        </Grid.Row>
+        {this.scheduledDates()}
+        <Grid.Row centered columns={6}>
+          <Button onClick={this.onClickScheduleRecipe}>Schedule</Button>
+          <Button onClick={this.onClickDeleteRecipe}>Delete</Button>
         </Grid.Row>
         <RecipeDetailIngredientList ingredients={ingredients} />
         <RecipeDetailStepList recipeSteps={recipeSteps} />
