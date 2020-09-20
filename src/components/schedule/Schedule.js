@@ -25,7 +25,9 @@ class Schedule extends Component {
         cancelToken: this.source.token,
       });
 
-      const recipes = response.data;
+      const recipes = response.data.sort((a, b) =>
+        a.scheduledDate > b.scheduledDate ? 1 : -1
+      );
 
       this.setState({ recipes });
     } catch (error) {
