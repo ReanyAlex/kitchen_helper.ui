@@ -26,7 +26,7 @@ class Schedule extends Component {
       });
 
       const recipes = response.data.sort((a, b) =>
-        a.scheduledDate < b.scheduledDate ? 1 : -1
+        a.scheduledDate > b.scheduledDate ? 1 : -1
       );
 
       this.setState({ recipes });
@@ -102,16 +102,14 @@ class Schedule extends Component {
             <Button onClick={this.getScheduledRecipes}>Schedule</Button>
           </Form.Group>
         </Grid.Row>
-        {this.state.recipes
-          .sort((a, b) => (a.ScheduledDate > b.ScheduledDate ? 1 : -1))
-          .map((r) => {
-            return (
-              <Grid.Row centered columns={6} key={r.id}>
-                <Header>{r.recipe.name}</Header>
-                <p>{new Date(r.scheduledDate).toDateString()}</p>
-              </Grid.Row>
-            );
-          })}
+        {this.state.recipes.map((r) => {
+          return (
+            <Grid.Row centered columns={6} key={r.id}>
+              <Header>{r.recipe.name}</Header>
+              <p>{new Date(r.scheduledDate).toDateString()}</p>
+            </Grid.Row>
+          );
+        })}
         <Header>Ingredients</Header>
         {this.renderIngredientList()}
       </Grid>
